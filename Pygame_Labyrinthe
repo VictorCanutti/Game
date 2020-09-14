@@ -1,0 +1,154 @@
+import pygame
+
+rep = int(input("EST CE QUE T'AS ENVIE DE JOUER AU MEILLEUR JEU DE MERDE DE TA VIE ? MET 1 SI TU VEUX OU 2 SI NON ET NTM !!!  "))
+if (rep==1):
+    pygame.init()
+    print('-------------------')
+    print('Le jeu a ete lancee')
+    print('Voici les commandes:')
+    print('Le A et Z augmente et diminue la vitesse.')
+    print('Le R et T reviennet au debout du jeu.')
+    print('Utiliser les fleches du clavier pour bouger.')
+    print('Utiliser D et F pour augmenter et diminuer votre Score.')
+    print('-------------------------------------------------------')
+
+    x = 20
+    y = 55
+
+    vitesse_1 = 10
+
+    Vert = 0, 255, 0
+    Bleue = 0, 0, 255
+    Rouge = 255, 0, 0
+    Noire = 0, 0, 0
+    Blanc = 255, 255, 255
+    size1 = 10
+    size2 = 15
+    size3 = 30
+    timer = 0
+    temps_secondes = 0
+    score = 0
+    score_vainceur = 10
+    score_perdant = 0
+    vitesse_actuel = 10
+    
+
+    fenetre = pygame.display.set_mode((1000,600))
+    pygame.display.set_caption("Criando um jogo com Python")
+    fond = pygame.image.load('labirinto.png')
+
+    font = pygame.font.SysFont('arial black', 30)
+    text = font.render("Temps: ", True,(255, 255, 255),(0, 0, 0))
+    pos_text = text.get_rect()
+    pos_text.center = (875, 50)
+
+    font = pygame.font.SysFont('arial black', 30)
+    text_score = font.render("Score: ", True,(255, 255, 255),(0, 0, 0))
+    pos_text_score = text_score.get_rect()
+    pos_text_score.center = (870, 100)
+
+    font = pygame.font.SysFont('arial black', 30)
+    text_vitesse = font.render("Vitesse: ", True,(255, 255, 255),(0, 0, 0))
+    pos_text_vitesse = text_vitesse.get_rect()
+    pos_text_vitesse.center = (880, 150)
+
+
+    fenetre_ouvert = True
+    while fenetre_ouvert :
+        FPS = 30
+        fpsClock = pygame.time.Clock()
+        pygame.time.delay((30))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                fenetre_ouvert = False
+                print('Vous avez quiter le jeu')
+
+
+        comands = pygame.key.get_pressed()
+
+        if comands[pygame.K_RIGHT]:
+            x += vitesse_1
+        if comands[pygame.K_LEFT]:
+            x -= vitesse_1
+        if comands[pygame.K_UP]:
+            y -= vitesse_1
+        if comands[pygame.K_DOWN]:
+            y += vitesse_1
+        if comands[pygame.K_r]:
+            y = 55
+            x = 20
+        if comands[pygame.K_t]:
+            y = 545
+            x = 780
+        if comands[pygame.K_a]:
+            vitesse_1 = vitesse_1 + 5
+        if comands[pygame.K_z]:
+            vitesse_1 = vitesse_1 - 5
+        if (timer <20):
+            timer +=1
+        else:
+            temps_secondes +=1
+            text = font.render("Temps: "+str(temps_secondes), True, (255, 255, 255), (0, 0, 0))
+            timer = 0
+
+        if score == score_vainceur:
+            fond_vainceur = pygame.image.load('vous_avez_gagner.png')
+            fenetre.blit(fond_vainceur, (0,0))
+            print('Vous avez gagner !!!')
+        elif score < score_perdant:
+            print('Vous avez perdu !!!')
+            break
+        else:
+            text_score = font.render("Score: "+str(score), True,(255, 255, 255),(0, 0, 0))
+
+        if vitesse_1 == 10:
+            pass
+        else:
+            text_vitesse = font.render("Vitesse: " + str(vitesse_1), True, (255, 255, 255), (0, 0, 0))
+
+
+
+        if comands[pygame.K_d]:
+            score = score + 1
+        if comands[pygame.K_f]:
+            score = score - 1
+
+        if temps_secondes == 60:
+            print('-----------------')
+            print("Le temps a ecoule")
+            print('-----------------')
+            break
+
+        if x >= 800:
+            print('TU PEUX PAS PETIT MALIN')
+            x = 20
+            y = 55
+        elif x <= 0:
+            print('TU PEUX PAS PETIT MALIN')
+            x = 20
+            y = 55
+        elif y >= 600:
+            print('TU PEUX PAS PETIT MALIN')
+            x = 20
+            y = 55
+        elif y <= 0:
+            print('TU PEUX PAS PETIT MALIN')
+            x = 20
+            y = 55
+
+
+        pygame.draw.circle(fenetre, (Rouge), (x, y), 10)
+        pygame.display.update()
+        pygame.display.flip()
+        fenetre.blit(text, pos_text)
+        fenetre.blit(fond, (0, 0))
+        fenetre.blit(text_score, pos_text_score)
+        fenetre.blit(text_vitesse, pos_text_vitesse)
+
+elif (rep==2):
+    print("AH OE CARRI TU VEUX PAS JOUER ? T'ES SUR MEC ? ")
+elif (rep>2):
+    print("T'ES CON OU CON ? JE TE DIT 1 OU 2 PUTAIN")
+
+
